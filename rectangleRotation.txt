@@ -1,0 +1,59 @@
+#include <graphics.h>
+#include <bits/stdc++.h>
+
+int main()
+{
+    int gdriver = DETECT, gmode;
+    int left, top, right, bottom, deg;
+    float rad, x1, y1, x2, y2, x3, y3, x4, y4;
+    initgraph(&gdriver, &gmode, "");
+    setcolor(1);
+    printf("Enter the co-ordinates of the rectangle :");
+    scanf("%d%d%d%d", &left, &top, &right, &bottom); //100 100 200 200
+    printf("\nEnter the angle to rotate :");
+    scanf("%d", &deg);
+    rad = deg * (3.14 / 180);
+
+    line(left, bottom, right, bottom);
+    line(left, bottom, left, top);
+    line(right, bottom, right, top);
+    line(left, top, right, top);
+
+    // Calculate the center point of the rectangle
+    int centerX = (left + right) / 2;
+    int centerY = (top + bottom) / 2;
+
+    // Translate the rectangle to the origin
+    int translatedLeft = left - centerX;
+    int translatedTop = top - centerY;
+    int translatedRight = right - centerX;
+    int translatedBottom = bottom - centerY;
+
+    // Rotate the translated rectangle
+    x1 = translatedLeft * cos(rad) - translatedBottom * sin(rad);
+    y1 = translatedLeft * sin(rad) + translatedBottom * cos(rad);
+    x2 = translatedRight * cos(rad) - translatedBottom * sin(rad);
+    y2 = translatedRight * sin(rad) + translatedBottom * cos(rad);
+    x3 = translatedLeft * cos(rad) - translatedTop * sin(rad);
+    y3 = translatedLeft * sin(rad) + translatedTop * cos(rad);
+    x4 = translatedRight * cos(rad) - translatedTop * sin(rad);
+    y4 = translatedRight * sin(rad) + translatedTop * cos(rad);
+
+    // Translate the rotated rectangle back to its original position
+    x1 += centerX;
+    y1 += centerY;
+    x2 += centerX;
+    y2 += centerY;
+    x3 += centerX;
+    y3 += centerY;
+    x4 += centerX;
+    y4 += centerY;
+
+    line(x1, y1, x2, y2);
+    line(x1, y1, x3, y3);
+    line(x3, y3, x4, y4);
+    line(x2, y2, x4, y4);
+
+    getch();
+    closegraph();
+}
